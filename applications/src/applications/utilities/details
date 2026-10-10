@@ -1,0 +1,6 @@
+Simple Calculator Application
+what it does:
+- takes first value, second value, and operator from user
+- can add multiply, sub and divide with stored values
+- will check for operator typos and dividing by zero, and will loop the program so user can try again
+- will add gui in the future
