@@ -12,12 +12,9 @@ public class Calculator extends App {
 	}
 
 	@Override
-	public void launch(Scanner input) {
+	public void run(Scanner input) {
 		// boolean that will be used for loop
 		boolean isOn = true;
-
-		// scanner object for console input
-		input = new Scanner(System.in);
 
 		// loop for error retries
 		while (isOn) {
@@ -86,25 +83,25 @@ public class Calculator extends App {
 	}
 
 	// method that adds the two values and prints results
-	public static void addAndPrint(double n1, double n2) {
+	private void addAndPrint(double n1, double n2) {
 		double result = n1 + n2;
 		System.out.printf("%.2f + %.2f = %.2f", n1, n2, result);
 	}
 
 	// method that subtracts the two values and prints results
-	public static void subtractAndPrint(double n1, double n2) {
+	private void subtractAndPrint(double n1, double n2) {
 		double result = n1 - n2;
 		System.out.printf("%.2f - %.2f = %.2f", n1, n2, result);
 	}
 
 	// method that multiplies the two values and prints results
-	public static void multiplyAndPrint(double n1, double n2) {
+	private void multiplyAndPrint(double n1, double n2) {
 		double result = n1 * n2;
 		System.out.printf("%.2f * %.2f = %.2f", n1, n2, result);
 	}
 
 	// method that divides the two values and prints results
-	public static void divideAndPrint(double n1, double n2) {
+	private void divideAndPrint(double n1, double n2) {
 		double result = n1 / n2;
 		System.out.printf("%.2f / %.2f = %.2f", n1, n2, result);
 	}

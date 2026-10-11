@@ -11,16 +11,13 @@ public class NumberGuessingGame extends App {
 	}
 
 	@Override
-	public void launch(Scanner input) {
-		input = new Scanner(System.in);
-		int guess, max, min, secretNum;
-
-		secretNum = startGame(input);
+	public void run(Scanner input) {
+		int secretNum = startGame(input);
 		guessAndPrint(input, secretNum);
 
 	}
 
-	public static int startGame(Scanner input) {
+	private int startGame(Scanner input) {
 		int min, max;
 		System.out.println("Guessing Game");
 
@@ -42,7 +39,7 @@ public class NumberGuessingGame extends App {
 		return (int) (Math.random() * (max - min + 1)) + min;
 	}
 
-	public static void guessAndPrint(Scanner input, int secretNum) {
+	private void guessAndPrint(Scanner input, int secretNum) {
 		System.out.println("\nGame Start");
 		int attempts = 0;
 		int guess;
@@ -53,11 +50,11 @@ public class NumberGuessingGame extends App {
 			attempts++;
 
 			if (guess > secretNum) {
-				System.out.printf("%d is too high! Try again.%n", guess);
+				System.out.printf("%n%d is too high! Try again.%n", guess);
 			} else if (guess < secretNum) {
-				System.out.printf("%d is too low! Try again.%n", guess);
+				System.out.printf("%n%d is too low! Try again.%n", guess);
 			} else {
-				System.out.printf("Congratulations! %d is the secret number.%n", guess);
+				System.out.printf("%nCongratulations! %d is the secret number.%n", guess);
 				System.out.printf("You guessed %d time(s)!", attempts);
 			}
 
