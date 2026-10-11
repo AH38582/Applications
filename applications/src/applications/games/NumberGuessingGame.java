@@ -3,6 +3,7 @@ package applications.games;
 import java.util.Scanner;
 
 import applications.App;
+import applications.Input;
 
 public class NumberGuessingGame extends App {
 
@@ -19,13 +20,12 @@ public class NumberGuessingGame extends App {
 
 	private int startGame(Scanner input) {
 		int min, max;
+		
 		System.out.println("Guessing Game");
 
-		System.out.print("Enter min number:");
-		min = input.nextInt();
-
-		System.out.print("Enter max number:");
-		max = input.nextInt();
+		min = Input.readInt(input, "Enter min number: ");
+		max = Input.readInt(input, "Enter max number: ");
+		
 
 		while (max <= min) {
 			System.out.println("Maximum must be greater than minimum");

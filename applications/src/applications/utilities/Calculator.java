@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import applications.App;
+import applications.Input;
 
 public class Calculator extends App {
 
@@ -25,14 +26,14 @@ public class Calculator extends App {
 				char op;
 
 				System.out.println("Calculator");
-				System.out.print("Enter your first value: ");
-				n1 = input.nextDouble(); // stores first value
+				
+				n1 = Input.readDouble(input, "Enter your first value: "); // stores first value
+				
 
 				System.out.print("Enter your operator (+, -, *, /): ");
 				op = input.next().charAt(0); // stores operator value
 
-				System.out.print("Enter your second value: ");
-				n2 = input.nextDouble(); // stores second value
+				n2 = Input.readDouble(input, "Enter your first value: "); // stores first value
 
 				// switch statement that maps each selected operator
 				switch (op) {

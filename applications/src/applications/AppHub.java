@@ -5,16 +5,17 @@ import java.util.Scanner;
 
 import applications.games.NumberGuessingGame;
 import applications.utilities.Calculator;
+import applications.utilities.Notes;
 
 public class AppHub {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		Calculator c = new Calculator();
+		Calculator calculator = new Calculator();
 		
 		NumberGuessingGame n = new NumberGuessingGame();
-		
-		c.launch(input);
+		Notes note = new Notes();		
+		calculator.launch(input);
 
 	}
 

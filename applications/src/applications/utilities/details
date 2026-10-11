@@ -4,3 +4,9 @@ what it does:
 - can add multiply, sub and divide with stored values
 - will check for operator typos and dividing by zero, and will loop the program so user can try again
 - will add gui in the future
+
+Notes Application
+- a lot of outside research done
+what it does:
+- reads, adds, views, and deletes notes
+- implementing save function

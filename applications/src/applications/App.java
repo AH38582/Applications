@@ -35,6 +35,7 @@ public abstract class App implements Launchable {
 	}
 
 	protected abstract void run(Scanner input);
+	
 
 	
 
