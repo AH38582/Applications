@@ -2,7 +2,7 @@ package applications;
 
 import java.util.Scanner;
 
-public abstract class App implements Launchable {
+public abstract class App {
 	private String name;
 	private String description;
 
@@ -27,14 +27,17 @@ public abstract class App implements Launchable {
 		this.description = description;
 	}
 
-	@Override
 	public void launch(Scanner input) {
-		System.out.printf("Launching %s...%n%n", name);
+		System.out.printf("Launching %s...%n", getName());
+		System.out.printf("%s%n", getDescription());
 		run(input);
 		
 	}
 
 	protected abstract void run(Scanner input);
+		
+
+	
 	
 
 	
