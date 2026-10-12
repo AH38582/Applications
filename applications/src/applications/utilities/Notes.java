@@ -3,11 +3,11 @@ package applications.utilities;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import applications.App;
 import applications.HasMenu;
 import applications.Input;
+import applications.Utility;
 
-public class Notes extends App implements HasMenu {
+public class Notes extends Utility implements HasMenu {
 
 	private ArrayList<String> notes = new ArrayList<String>();
 	private static final String[] MENU = { "New note", "List note", "View note", "Delete note" };
@@ -15,8 +15,6 @@ public class Notes extends App implements HasMenu {
 	public Notes() {
 		super("Notes", "Create, access, and delete notes");
 	}
-
-
 
 	@Override
 	public String[] getMenuOptions() {
