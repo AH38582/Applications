@@ -2,7 +2,7 @@ package applications;
 
 import java.util.Scanner;
 
-public abstract class App {
+public class App {
 	private String name;
 	private String description;
 
@@ -34,7 +34,8 @@ public abstract class App {
 		
 	}
 
-	protected abstract void run(Scanner input);
+	protected void run(Scanner input) {
+	}
 		
 
 	
