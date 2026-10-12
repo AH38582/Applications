@@ -1,4 +1,5 @@
 package applications;
+
 import java.util.*;
 
 import java.util.Scanner;
@@ -11,11 +12,11 @@ public class AppHub {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		Calculator calculator = new Calculator();
-		
+		// available apps: Calculator, NumberGuessingGame, Notes
+		// use launch method(full screen console for best experience)
+
 		NumberGuessingGame n = new NumberGuessingGame();
-		Notes note = new Notes();		
-		calculator.launch(input);
+		n.launch(input);
 
 	}
 
