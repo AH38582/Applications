@@ -3,10 +3,10 @@ package applications.utilities;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import applications.App;
 import applications.Input;
+import applications.Utility;
 
-public class Calculator extends App {
+public class Calculator extends Utility {
 
 	public Calculator() {
 		super("Calculator", "Performs basic arithmetic");
@@ -26,9 +26,8 @@ public class Calculator extends App {
 				char op;
 
 				System.out.println("Calculator");
-				
+
 				n1 = Input.readDouble(input, "Enter your first value: "); // stores first value
-				
 
 				System.out.print("Enter your operator (+, -, *, /): ");
 				op = input.next().charAt(0); // stores operator value
