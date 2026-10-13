@@ -3,7 +3,7 @@ package applications;
 import java.util.Scanner;
 
 public final class Input {
-	
+
 	// created to read scanner inputs and store them in values
 
 	public static int readInt(Scanner input, String prompt) {
@@ -35,14 +35,12 @@ public final class Input {
 	public static String readString(Scanner input, String prompt) {
 		while (true) {
 			System.out.print(prompt);
-			if (input.hasNextLine()) {
-				String value = input.next().trim();
+			String value = input.nextLine().trim();
 
-				if (!value.isEmpty()) {
-					return value;
-				}
+			if (!value.isEmpty()) {
+				return value;
 			}
-			
+
 			System.out.println("Invalid input. Please enter a non empty string.");
 		}
 	}

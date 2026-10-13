@@ -17,6 +17,7 @@ public class AppHub {
 
 		NumberGuessingGame n = new NumberGuessingGame();
 		n.launch(input);
+		
 
 	}
 

@@ -33,6 +33,14 @@ public class App {
 		run(input);
 		
 	}
+	
+	protected void openApp() {
+		
+	}
+	
+	protected void closeApp() {
+		
+	}
 
 	protected void run(Scanner input) {
 	}

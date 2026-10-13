@@ -98,7 +98,7 @@ public class Notes extends Utility implements HasMenu {
 			return;
 		}
 
-		System.out.printf("%n %s", notes.get(index));
+		System.out.printf("%n%s", notes.get(index));
 	}
 
 	private void deleteNote(Scanner input) {

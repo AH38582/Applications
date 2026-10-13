@@ -74,9 +74,6 @@ public class Calculator extends Utility {
 				System.out.println(e.getMessage()); // prints error message
 				input.nextLine();
 
-			} catch (InputMismatchException e) {
-				System.out.println("\nInvalid input! Please enter numbers.\n"); // prints error message
-				input.nextLine();
 			}
 		}
 
@@ -85,24 +82,24 @@ public class Calculator extends Utility {
 	// method that adds the two values and prints results
 	private void addAndPrint(double n1, double n2) {
 		double result = n1 + n2;
-		System.out.printf("%.2f + %.2f = %.2f", n1, n2, result);
+		System.out.printf("%.2f + %.2f = %.2f%n", n1, n2, result);
 	}
 
 	// method that subtracts the two values and prints results
 	private void subtractAndPrint(double n1, double n2) {
 		double result = n1 - n2;
-		System.out.printf("%.2f - %.2f = %.2f", n1, n2, result);
+		System.out.printf("%.2f - %.2f = %.2f%n", n1, n2, result);
 	}
 
 	// method that multiplies the two values and prints results
 	private void multiplyAndPrint(double n1, double n2) {
 		double result = n1 * n2;
-		System.out.printf("%.2f * %.2f = %.2f", n1, n2, result);
+		System.out.printf("%.2f * %.2f = %.2f%n", n1, n2, result);
 	}
 
 	// method that divides the two values and prints results
 	private void divideAndPrint(double n1, double n2) {
 		double result = n1 / n2;
-		System.out.printf("%.2f / %.2f = %.2f", n1, n2, result);
+		System.out.printf("%.2f / %.2f = %.2f%n", n1, n2, result);
 	}
 }

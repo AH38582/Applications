@@ -5,41 +5,53 @@ import java.util.Scanner;
 import applications.Game;
 import applications.HasMenu;
 import applications.Input;
-import applications.Playable;
 
-public class NumberGuessingGame extends Game implements Playable, HasMenu {
+public class NumberGuessingGame extends Game implements HasMenu {
+	// data members for menus
 	private static final String[] MAIN_MENU = { "New game", "Stats", "How to Play", "Quit" };
 	private static final String[] DIFFICULTY_MENU = { "Easy(1-10)", "Medium(1-50)", "Hard(1-1000)", "Custom", "Quit" };
+	// data members for game
 	private int min, max, secretNum;
-	private Scanner input;
+	private int totalAttemptsOAT = 0;
+	private int totalNumGames = 0;
+	// data member for GameStats
+	private GameStats gameStats;
+	
 
+	// default convenience constructor
 	public NumberGuessingGame() {
-		super("Number Guessing Game", "Guess the computer's number");
-		input = new Scanner(System.in);
+		super("Number Guessing Game", "Guess the computer's number"); // to share description and name
+		gameStats = new GameStats("src/applications/games/number_guessing_game_stat"); // decides what file will be tracking stats
+		int[] stats = gameStats.loadStats(2); // calls loadStats and the number of stats to be loaded
+		// assigns each stat an index
+		totalAttemptsOAT = stats[0];
+		totalNumGames = stats[1];
 	}
-
+	
+	// Override methods
 	@Override
-	public void startGame() { //
-
+	public void startGame() { // from Game class
+		Scanner input = new Scanner(System.in);
 		secretNum = secretNum(min, max);
 		guessAndPrint(input, secretNum);
 
 	}
 
 	@Override
-	public String[] getMenuOptions() {
+	public String[] getMenuOptions() { // from HasMenu interface
 		return MAIN_MENU;
 	}
 
 	@Override
-	public boolean handleChoice(int choice, Scanner input) {
+	public boolean handleChoice(int choice, Scanner input) { // from HasMenu interface
 		switch (choice) {
-		case 1:
+		case 1: // New game
 			boolean inMenu = true;
 
+			// nested switch case that sets up the difficulty that user chooses
 			while (inMenu) {
 				String[] options = getDifficultyMenuOptions();
-
+				// prints the DIFFICULTY_MENU  array
 				for (int i = 0; i < options.length; i++) {
 					System.out.printf("%d. %s%n", i + 1, options[i]);
 				}
@@ -47,8 +59,8 @@ public class NumberGuessingGame extends Game implements Playable, HasMenu {
 				// stores integer value
 				choice = Input.readInt(input, "\nChoose a difficulty: ");
 
-				switch (choice) {
-				case 1:
+				switch (choice) { 
+				case 1: // Easy
 					min = 1;
 					max = 10;
 					startGame();
@@ -70,14 +82,13 @@ public class NumberGuessingGame extends Game implements Playable, HasMenu {
 					break;
 
 				case 4: // Custom
-					boolean isValid = true;
 					min = Input.readInt(input, "Enter a min: ");
 					max = Input.readInt(input, "Enter a max: ");
 
 					while (min >= max) {
 						System.out.println("Maximum must be greater than minimum.");
 						min = Input.readInt(input, "Enter a min: ");
-						max = Input.readInt(input, "Enter a max: /n");
+						max = Input.readInt(input, "Enter a max: \n");
 
 					}
 					startGame();
@@ -94,14 +105,15 @@ public class NumberGuessingGame extends Game implements Playable, HasMenu {
 
 			}
 			return true;
-		case 2:
-			System.out.println("%nStats feature coming soon%n");
+		case 2: // stats
+			System.out.printf("%nTotal attempts overall: %d%n", totalAttemptsOAT);
+			System.out.printf("Total number of games: %d%n%n", totalNumGames);
 			return true;
 
-		case 3:
+		case 3: // how to play
 			rules();
 			return true;
-		case 4:
+		case 4: // quit
 			System.out.println("Quit app");
 			return false;
 
@@ -147,9 +159,9 @@ public class NumberGuessingGame extends Game implements Playable, HasMenu {
 
 		// processes game and prints the results of the game
 		do {
-			System.out.print("Enter a guess: ");
-			guess = input.nextInt();
+			guess = Input.readInt(input, "Enter a guess: ");
 			attempts++;
+			
 
 			if (guess > secretNum) {
 				System.out.printf("%n%d is too high! Try again.%n", guess);
@@ -161,6 +173,11 @@ public class NumberGuessingGame extends Game implements Playable, HasMenu {
 			}
 
 		} while (guess != secretNum);
+		
+		totalAttemptsOAT += attempts;
+		totalNumGames++;
+		gameStats.saveStats(new int[] { totalAttemptsOAT, totalNumGames });
+		
 	}
 
 	@Override

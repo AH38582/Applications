@@ -2,7 +2,7 @@ package applications;
 
 import java.util.Scanner;
 
-public class Utility extends App {
+public abstract class Utility extends App {
 
 	public Utility(String name, String description) {
 		super(name, description);
