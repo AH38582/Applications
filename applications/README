@@ -9,7 +9,7 @@ goal:
 
 What is implemented already
 - Concrete App class that will serve as a parent class for all App subclasses
-- Abstract Game class that extends App and implements Playable thats erves as a parent class for all Game subclasses
+- Abstract Game class that extends App and implements Playable thats erves as a parent class for all Game subclasses 
 - Abstract Utility class that extends App that serves as a parent class for all Utility subclasses
 - Input class that takes either an int, double or String, and a String prompt, that will print the prompt into console and respond to the user's input, and also has condition checking for input mismatch
 - AppHub class for main method testing
