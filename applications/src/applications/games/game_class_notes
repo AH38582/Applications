@@ -1,10 +1,11 @@
 Simple Number Guessing Application
 what it does:
 - prompts user to guess the number the computer picks
-- includes ability to set up custom range of numbers to guess from
+- includes ability to select difficulty levels and custom range level
+- includes stats menu that shows stats for specific difficulty games and overall stats
 - when answer is incorrect, console will either share whether guess is too high or too low
 - when answer is correct, user will be given number of attempts made
 
 what it will have later:
 - will have gui features
-- stats feature that saves and can be accessed
+- achievements
