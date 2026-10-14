@@ -16,6 +16,7 @@ public class AppHub {
 		// use launch method(full screen console for best experience)
 
 		NumberGuessingGame n = new NumberGuessingGame();
+		Notes notes = new Notes();
 		n.launch(input);
 		
 
