@@ -3,24 +3,27 @@ package applications.games;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GameStats {
+import applications.Storable;
+
+public class GameStats implements Storable<ArrayList<Integer>> {
 	/// data member for file
 	private File file;
 
-
-	// constructor for where instance can be customized
+	// constructor for where instance can be customized with file name
 	public GameStats(String fileName) {
 		setFile(new File(fileName));
 	}
-	
+
+	// setter method
 	public void setFile(File file) {
 		this.file = file;
 	}
 
-	// stores stats in array and record them into file
-	public void saveStats(int[] stats) {
+	@Override
+	public void save(ArrayList<Integer> stats) {
 		try (PrintWriter output = new PrintWriter(file)) {
 			for (int stat : stats) {
 				output.println(stat);
@@ -28,22 +31,21 @@ public class GameStats {
 		} catch (FileNotFoundException e) {
 			System.out.println("Unable to save file");
 		}
+
 	}
 
-	// takes file and prints array that is in file to console
-	public int[] loadStats(int numOfStats) {
-		int[] stats = new int[numOfStats];
+	@Override
+	public ArrayList<Integer> load() {
+		ArrayList<Integer> stats = new ArrayList<Integer>();
 		try (Scanner input = new Scanner(file)) {
-			for (int i = 0; i < stats.length; i++) {
-				if (input.hasNextInt()) {
-					stats[i] = input.nextInt();
-				}
+			while (input.hasNextInt()) {
+				stats.add(input.nextInt());
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			System.out.println("No saved stats found");
 		}
 		return stats;
-
 	}
+
 }
