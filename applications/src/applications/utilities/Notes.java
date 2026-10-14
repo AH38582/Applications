@@ -5,15 +5,20 @@ import java.util.ArrayList;
 
 import applications.HasMenu;
 import applications.Input;
+import applications.Storable;
 import applications.Utility;
 
 public class Notes extends Utility implements HasMenu {
 
 	private ArrayList<String> notes = new ArrayList<String>();
 	private static final String[] MENU = { "New note", "List note", "View note", "Delete note" };
+	private Storable<ArrayList<String>> storage;
+	
 
 	public Notes() {
 		super("Notes", "Create, access, and delete notes");
+		storage = new UtilityStorage("src/applications/utilities/notes_storage");
+		notes = storage.load();
 	}
 
 	@Override
@@ -71,6 +76,7 @@ public class Notes extends Utility implements HasMenu {
 		String text = Input.readString(input, "Enter note text: ");
 
 		notes.add(text);
+		storage.save(notes);
 		System.out.println("Note added!\n");
 	}
 
@@ -114,6 +120,7 @@ public class Notes extends Utility implements HasMenu {
 			return;
 		}
 		notes.remove(index);
+		storage.save(notes);
 		System.out.println("Note deleted!");
 	}
 
