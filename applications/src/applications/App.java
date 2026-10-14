@@ -28,18 +28,18 @@ public class App {
 	}
 
 	public void launch(Scanner input) {
-		System.out.printf("Launching %s...%n", getName());
+		openApp();
 		System.out.printf("%s%n", getDescription());
 		run(input);
-		
+		closeApp();
 	}
 	
 	protected void openApp() {
-		
+		System.out.printf("Opening %s...%n", getName());
 	}
 	
 	protected void closeApp() {
-		
+		System.out.printf("Closing %s...", getName());
 	}
 
 	protected void run(Scanner input) {
