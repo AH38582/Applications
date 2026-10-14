@@ -9,13 +9,15 @@ goal:
 
 What is implemented already
 - Concrete App class that will serve as a parent class for all App subclasses
-- Abstract Game class that extends App and implements Playable thats erves as a parent class for all Game subclasses
+- Abstract Game class that extends App and implements Playable thats serves as a parent class for all Game subclasses 
 - Abstract Utility class that extends App that serves as a parent class for all Utility subclasses
 - Input class that takes either an int, double or String, and a String prompt, that will print the prompt into console and respond to the user's input, and also has condition checking for input mismatch
 - AppHub class for main method testing
-- GameStats class that saves and loads stats for classes that have stats (aggregation)
+- GameStats class that implements Storable<ArrayList<Integer> saves and loads stats for classes that have stats (aggregation)
+- UtilityStorage class that implements Storable<ArrayList<String> saves and loads data for utility objects
 - Interface Playable for playable classes
 - Interface HasMenu for classes that require a menu
+- Interface Storable<E> for classes that have data that can be stored and saved
 - NumberGuessingGame class that extends Game and implements HasMenu and Playable(Game)
 - Calculator class that extends Utility(App)
 - Notes class that extends Utility(App)
@@ -23,12 +25,6 @@ What is implemented already
 To-do
 high priority
 - adjust comments as i make things; obviously i should explain my work if i'm making a repository
-- add save features
-	- used Scanner/Printwriter that take an integer array to process them and have games that has stats, and assign individual stats in a array index
-	- now need to implement all games that recrods stats and can be loaded to console(could also maybe make it more general for any app that needs to be saved and loaded onto console)
-	- now i'm considering making this an interface, so i will workshop that
-	- 30ish% done: I have a GameStats class that accomplishes this but plan to make it for all App objects instead of Game objects). this tick is a medium priority
-
 
 medium priority
 - make the main method user friendly, simplify the instructions
