@@ -39,7 +39,10 @@ public class UtilityStorage implements Storable<ArrayList<String>> {
 		ArrayList<String> data = new ArrayList<String>();
 		try (Scanner input = new Scanner(file)) {
 			while (input.hasNextLine()) {
-				data.add(input.nextLine());
+				String line = input.nextLine().trim();
+				if (!line.isEmpty()) {
+					data.add(line);
+				}
 			}
 
 		} catch (FileNotFoundException e) {
@@ -48,5 +51,7 @@ public class UtilityStorage implements Storable<ArrayList<String>> {
 
 		return data;
 	}
+
+	
 
 }
