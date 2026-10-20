@@ -11,5 +11,4 @@ module JavaFX {
 	exports applications.utilities.calculator;
 	exports applications.utilities.notes;
 	exports applications.games.numberguess;
-	exports applications.games.magicball;
 }
