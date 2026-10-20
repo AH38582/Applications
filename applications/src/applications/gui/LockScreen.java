@@ -1,5 +1,6 @@
 package applications.gui;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -28,6 +29,7 @@ public class LockScreen extends Application {
 	private static final int HEIGHT = 720;
 	private static final int WIDTH = 360;
 	private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("h:mm a");
+	private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("EEEE, MMMM d");
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -38,21 +40,28 @@ public class LockScreen extends Application {
 		Label clock = new Label();
 		clock.setFont(Font.font("System", FontWeight.BOLD, 70));
 		clock.setTextFill(Color.GHOSTWHITE);
+		
+		Label date = new Label();
+		date.setFont(Font.font("System", FontWeight.BOLD, 30));
+		date.setTextFill(Color.GHOSTWHITE);
+		
+		Label unlock = new Label("Swipe up to unlock");
 
-		VBox top = new VBox();
-		top.getChildren().addAll(lock, clock);
-		top.setSpacing(10.0);
-		top.setAlignment(Pos.BASELINE_CENTER);
+		VBox content = new VBox();
+		content.getChildren().addAll(lock, date, clock);
+		VBox.setMargin(clock, new Insets(-30, 0, 0, 0));
 
-		StackPane root = new StackPane(top);
+		content.setAlignment(Pos.BASELINE_CENTER);
+		StackPane root = new StackPane(content);
+		
 		root.setBackground(
 				new Background(new BackgroundFill(Color.web("#2b2b2b", 0.7), CornerRadii.EMPTY, Insets.EMPTY)));
 		Scene scene = new Scene(root, WIDTH, HEIGHT);
 		scene.setFill(Color.TRANSPARENT);
 
-		clock.setText(LocalTime.now().format(TIME));
+		updateDateTime(clock, date);
 		Timeline displayClock = new Timeline(
-				new KeyFrame(Duration.seconds(1), e -> clock.setText(LocalTime.now().format(TIME))));
+				new KeyFrame(Duration.seconds(1), e -> updateDateTime(clock, date)));
 		displayClock.setCycleCount(Animation.INDEFINITE);
 		displayClock.play();
 
@@ -72,8 +81,9 @@ public class LockScreen extends Application {
 
 	}
 
-	private void updateClock(Label clock) {
+	private void updateDateTime(Label clock, Label date) {
 		clock.setText(LocalTime.now().format(TIME));
+		date.setText(LocalDate.now().format(DATE));
 	}
 
 	public static void main(String[] args) {

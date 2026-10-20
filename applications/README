@@ -21,12 +21,10 @@ What is implemented already
 - NumberGuessingGame class that extends Game and implements HasMenu and Playable(Game)
 - Calculator class that extends Utility(App)
 - Notes class that extends Utility(App) and implements HasMenu
-- ToDoList class that extends Utility(App) and implements HasMenu
 
 To-do
 high priority
 - adjust comments as i make things; obviously i should explain my work if i'm making a repository
-- make todolist class and notes class different(they're pretty much the same just different names
 
 medium priority
 - make the main method user friendly, simplify the instructions
