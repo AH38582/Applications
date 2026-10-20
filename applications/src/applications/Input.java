@@ -6,6 +6,13 @@ public final class Input {
 
 	// created to read scanner inputs and store them in values
 
+	/**
+	 * Used to read prompt and store the user's input to that prompt.
+	 * 
+	 * @param input
+	 * @param prompt
+	 * @return integer value
+	 */
 	public static int readInt(Scanner input, String prompt) {
 		while (true) {
 			System.out.print(prompt);
