@@ -2,6 +2,7 @@ package applications.utilities.notes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import applications.HasMenu;
 import applications.Input;
@@ -10,6 +11,7 @@ import applications.Utility;
 import applications.utilities.UtilityStorage;
 
 public class Notes extends Utility implements HasMenu {
+	private final int MAX_CHARS = 30;
 
 	private ArrayList<String> notes = new ArrayList<String>();
 	private static final String[] MENU = { "New note", "List all notes", "View note", "Delete note", "Clear all notes",
@@ -34,7 +36,7 @@ public class Notes extends Utility implements HasMenu {
 			addNote(input);
 			return true;
 		case 2:
-			listNotes();
+			printAllData();
 			return true;
 		case 3:
 			viewNote(input);
@@ -43,7 +45,21 @@ public class Notes extends Utility implements HasMenu {
 			deleteNote(input);
 			return true;
 		case 5:
-			clearAllNotes(input);
+			if (notes.isEmpty()) {
+				System.out.println("Notes is already empty\n");
+				return true;
+			}
+
+			System.out.print("Are you sure you want to clear all notes? (y/n):");
+			String response = input.nextLine().trim().toLowerCase();
+
+			if (response.equals("y") || response.equals("yes")) {
+				System.out.println("All notes cleared.\n");
+				clearAllData();
+			} else {
+				System.out.println("Clear all notes cancelled\n");
+				return true;
+			}
 			return true;
 		case 6:
 			return false;
@@ -73,6 +89,26 @@ public class Notes extends Utility implements HasMenu {
 		}
 	}
 
+	@Override
+	protected void printAllData() {
+		if (notes.isEmpty()) {
+			System.out.println("No notes added here...\n");
+			return;
+		}
+		System.out.println();
+		for (int i = 0; i < notes.size(); i++) {
+			String preview = snippet(notes.get(i), MAX_CHARS);
+			System.out.printf("%d. %s%n", i + 1, preview);
+		}
+		System.out.println();
+	}
+
+	@Override
+	protected void clearAllData() {
+		notes.clear();
+		storage.save(notes);
+	}
+
 	private void addNote(Scanner input) {
 		String text = Input.readString(input, "Enter note text: ");
 
@@ -81,25 +117,13 @@ public class Notes extends Utility implements HasMenu {
 		System.out.println("Note added!\n");
 	}
 
-	private void listNotes() {
-		if (notes.isEmpty()) {
-			System.out.println("No notes added here...\n");
-			return;
-		}
-		System.out.println();
-		for (int i = 0; i < notes.size(); i++) {
-			System.out.printf("%d. %s%n", i + 1, notes.get(i));
-		}
-		System.out.println();
-	}
-
 	private void viewNote(Scanner input) {
 		if (notes.isEmpty()) {
 			System.out.println("No notes to view here...\n");
 			return;
 		}
 
-		listNotes();
+		printAllData();
 		int index = Input.readInt(input, "Enter note number: ") - 1;
 		if (index < 0 || index >= notes.size()) {
 			System.out.println("Invalid note number\n");
@@ -116,7 +140,7 @@ public class Notes extends Utility implements HasMenu {
 
 		}
 
-		listNotes();
+		printAllData();
 		int index = Input.readInt(input, "Enter note number to delete: ") - 1;
 
 		if (index < 0 || index >= notes.size()) {
@@ -138,23 +162,12 @@ public class Notes extends Utility implements HasMenu {
 		}
 
 	}
-
-	private void clearAllNotes(Scanner input) {
-		if (notes.isEmpty()) {
-			System.out.println("Notes is already empty\n");
-			return;
-		}
-
-		System.out.print("Are you sure you want to clear all notes? (y/n):");
-		String response = input.nextLine().trim().toLowerCase();
-
-		if (response.equals("y") || response.equals("yes")) {
-			System.out.println("All notes cleared.\n");
-			notes.clear();
-			storage.save(notes);
+	
+	private String snippet(String text, int max) {
+		 if (text.length() <= max) {
+			return text;
 		} else {
-			System.out.println("Clear all notes cancelled\n");
-			return;
+			return text.substring(0, max - 3) + "...";
 		}
 	}
 

@@ -13,7 +13,7 @@ public class Calculator extends Utility implements HasMenu {
 	private static final String[] MAIN_MENU = { "Calculate", "Math", "History", "Clear history", "Quit" };
 	private static final String[] MATH_MENU = { "Is N prime?", "gcd(a, b)", "lcm(a,b)", "Exit" };
 
-	private static final int MAX_HISTORY = 15;
+	private static final int MAX_HISTORY = 30;
 	private Storable<ArrayList<String>> storage;
 	private ArrayList<String> history = new ArrayList<String>();
 
@@ -46,10 +46,6 @@ public class Calculator extends Utility implements HasMenu {
 		return MAIN_MENU;
 	}
 
-	public String[] getMathMenuOptions() {
-		return MATH_MENU;
-	}
-
 	@Override
 	public boolean handleChoice(int choice, Scanner input) {
 		switch (choice) {
@@ -74,10 +70,23 @@ public class Calculator extends Utility implements HasMenu {
 			System.out.println();
 			return true;
 		case 3:
-			loadHistory();
+			printAllData();
 			return true;
 		case 4:
-			clearHistory(input);
+			System.out.println();
+			if (history.isEmpty()) {
+				System.out.println("History is already empty");
+				return true;
+			}
+
+			System.out.print("Are you sure you want to clear all history? (y/n):");
+			String response = input.nextLine().trim().toLowerCase();
+
+			if (response.equals("y") || response.equals("yes")) {
+				clearAllData();
+			} else {
+				System.out.println("Clear history cancelled\n");
+			}
 			return true;
 		case 5:
 			return false;
@@ -85,6 +94,31 @@ public class Calculator extends Utility implements HasMenu {
 			System.out.println("Invalid option. Please pick again\n");
 			return true;
 		}
+	}
+
+	@Override
+	protected void clearAllData() {
+		history.clear();
+		storage.save(history);
+	}
+
+	@Override
+	protected void printAllData() {
+
+		if (history.isEmpty()) {
+			System.out.println("No history yet.\n");
+			return;
+		}
+		System.out.println("\n====== History ======");
+		System.out.println("History capacity is 30; exceeding that removes the oldest entry");
+		for (int i = 0; i < history.size(); i++) {
+			System.out.printf("%n%d. %s%n", i + 1, history.get(i));
+		}
+		System.out.println();
+	}
+
+	public String[] getMathMenuOptions() {
+		return MATH_MENU;
 	}
 
 	private boolean handleMathMenu(int choice, Scanner input) {
@@ -125,7 +159,7 @@ public class Calculator extends Utility implements HasMenu {
 
 			n2 = Input.readDouble(input, "Enter your second value: "); // stores first value
 			System.out.println();
-			
+
 			// switch statement that maps each selected operator
 			switch (op) {
 			case '+':
@@ -195,44 +229,12 @@ public class Calculator extends Utility implements HasMenu {
 		if (history.contains(entry)) {
 			return;
 		}
-		
+
 		history.add(entry);
 		if (history.size() > MAX_HISTORY) {
 			history.remove(0);
 		}
 		storage.save(history);
-	}
-
-	private void loadHistory() {
-
-		if (history.isEmpty()) {
-			System.out.println("No history yet.\n");
-			return;
-		}
-		System.out.println("\n====== History ======");
-		System.out.println("History capacity is 15; exceeding that removes the oldest entry");
-		for (int i = 0; i < history.size(); i++) {
-			System.out.printf("%n%d. %s%n", i + 1, history.get(i));
-		}
-		System.out.println();
-	}
-
-	private void clearHistory(Scanner input) {
-		System.out.println();
-		if (history.isEmpty()) {
-			System.out.println("History is already empty");
-			return;
-		}
-
-		System.out.print("Are you sure you want to clear all history? (y/n):");
-		String response = input.nextLine().trim().toLowerCase();
-
-		if (response.equals("y") || response.equals("yes")) {
-			history.clear();
-			storage.save(history);
-		} else {
-			System.out.println("Clear history cancelled\n");
-		}
 	}
 
 	private void printIsPrime(Scanner input) {
@@ -241,8 +243,10 @@ public class Calculator extends Utility implements HasMenu {
 
 		if (isPrime) {
 			System.out.printf("%n%d is a prime!%n", choice);
+			saveHistory(String.format("%d is a prime!", choice));
 		} else {
 			System.out.printf("%n%d is not a prime!%n", choice);
+			saveHistory(String.format("%d is not a prime!", choice));
 		}
 	}
 
@@ -251,6 +255,7 @@ public class Calculator extends Utility implements HasMenu {
 		int num2 = Input.readInt(input, "Enter second number: ");
 
 		System.out.printf("%ngcd(%d, %d) is %d%n", num1, num2, gcd(num1, num2));
+		saveHistory(String.format("gcd(%d, %d) is %d", num1, num2, gcd(num1, num2)));
 	}
 
 	private void printLCM(Scanner input) {
@@ -258,6 +263,7 @@ public class Calculator extends Utility implements HasMenu {
 		int num2 = Input.readInt(input, "Enter second number: ");
 
 		System.out.printf("%nlcm(%d, %d) is %d%n", num1, num2, lcm(num1, num2));
+		saveHistory(String.format("lcm(%d, %d) is %d", num1, num2, lcm(num1, num2)));
 	}
 
 	private boolean isPrime(int n) {

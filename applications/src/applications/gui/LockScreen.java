@@ -14,8 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,43 +32,57 @@ public class LockScreen extends Application {
 
 	private static final int HEIGHT = 720;
 	private static final int WIDTH = 360;
+	private Timeline displayClock;
 	private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("h:mm a");
 	private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("EEEE, MMMM d");
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		Label lock = new Label("🔒");
-		lock.setFont(Font.font(30));
-		lock.setTextFill(Color.GHOSTWHITE);
 
-		Label clock = new Label();
-		clock.setFont(Font.font("System", FontWeight.BOLD, 70));
-		clock.setTextFill(Color.GHOSTWHITE);
-		
-		Label date = new Label();
-		date.setFont(Font.font("System", FontWeight.BOLD, 30));
-		date.setTextFill(Color.GHOSTWHITE);
-		
-		Label unlock = new Label("Swipe up to unlock");
+		// top region
+		Label clock = createLabel("", FontWeight.BOLD, 60);
+		Label date = createLabel("", FontWeight.BOLD, 20);
 
-		VBox content = new VBox();
-		content.getChildren().addAll(lock, date, clock);
-		VBox.setMargin(clock, new Insets(-30, 0, 0, 0));
+		VBox topBox = new VBox(10, clock, date);
+		topBox.setAlignment(Pos.CENTER);
+		topBox.setPadding(new Insets(80, 0, 0, 0));
 
-		content.setAlignment(Pos.BASELINE_CENTER);
-		StackPane root = new StackPane(content);
+		// bottom region
+		Label lock = createLabel("🔒", FontWeight.BOLD, 30);
+		Label unlock = createLabel("Click to unlock", FontWeight.BOLD, 20);
+
+		VBox bottomBox = new VBox(10, lock, unlock);
+		bottomBox.setAlignment(Pos.CENTER);
+		bottomBox.setPadding(new Insets(0, 0, 80, 0));
 		
+		
+
+		BorderPane root = new BorderPane();
+		root.setTop(topBox);
+		root.setBottom(bottomBox);
+
 		root.setBackground(
-				new Background(new BackgroundFill(Color.web("#2b2b2b", 0.7), CornerRadii.EMPTY, Insets.EMPTY)));
+				new Background(new BackgroundFill(Color.web("#2b2b2b", 0.9), new CornerRadii(5), Insets.EMPTY)));
+		root.setBorder(new Border(
+				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5))));
+		
+		startClock(clock, date);
+		updateDateTime(clock, date);
+		
+		root.setOnMouseClicked(e -> {
+			if (displayClock != null) {
+				displayClock.stop();
+				stage.setScene(HomeScreen.createScene());
+			}
+		});
+		
+		
+		// scene and stage setup
 		Scene scene = new Scene(root, WIDTH, HEIGHT);
 		scene.setFill(Color.TRANSPARENT);
 
-		updateDateTime(clock, date);
-		Timeline displayClock = new Timeline(
-				new KeyFrame(Duration.seconds(1), e -> updateDateTime(clock, date)));
-		displayClock.setCycleCount(Animation.INDEFINITE);
-		displayClock.play();
 
+		
 		scene.setOnKeyPressed(e -> {
 			if (e.getCode() == javafx.scene.input.KeyCode.ESCAPE) {
 				stage.close();
@@ -77,8 +95,22 @@ public class LockScreen extends Application {
 		stage.setWidth(WIDTH);
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.TRANSPARENT);
+
 		stage.show();
 
+	}
+
+	private Label createLabel(String text, FontWeight weight, int fontSize) {
+		Label label = new Label(text);
+		label.setFont(Font.font("System", weight, fontSize));
+		label.setTextFill(Color.GHOSTWHITE);
+		return label;
+	}
+
+	private void startClock(Label clock, Label date) {
+		displayClock = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateDateTime(clock, date)));
+		displayClock.setCycleCount(Animation.INDEFINITE);
+		displayClock.play();
 	}
 
 	private void updateDateTime(Label clock, Label date) {

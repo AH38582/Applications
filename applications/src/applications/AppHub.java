@@ -4,6 +4,7 @@ import java.util.*;
 
 import java.util.Scanner;
 
+import applications.games.magicball.Magic8Ball;
 import applications.games.numberguess.NumberGuessingGame;
 import applications.utilities.calculator.Calculator;
 import applications.utilities.notes.Notes;
@@ -15,7 +16,7 @@ public class AppHub {
 		// available apps: Calculator, NumberGuessingGame, Notes
 		// use launch method(full screen console for best experience)
 
-		final String[] MAIN_MENU = { "Number Guessing Game", "Notes", "Calculator", "Exit" };
+		final String[] MAIN_MENU = { "Number Guessing Game", "Notes", "Calculator", "Magic 8-Ball", "Exit" };
 		printMenu(MAIN_MENU, input);
 
 	}
@@ -55,8 +56,13 @@ public class AppHub {
 			Calculator calc = new Calculator();
 			calc.launch(input);
 			return true;
-//		
+			
 		case 4:
+			Magic8Ball magicball = new Magic8Ball();
+			magicball.launch(input);
+			return true;
+			
+		case 5:
 			System.out.println("Powered off.");
 			return false;
 		default:

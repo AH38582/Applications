@@ -1,6 +1,7 @@
 package applications.games.numberguess;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import applications.Game;
@@ -13,6 +14,7 @@ public class NumberGuessingGame extends Game {
 	// constants for menus
 	private static final String[] MAIN_MENU = { "New game", "Stats", "How to Play", "Quit" };
 	private static final String[] DIFFICULTY_MENU = { "Easy(1-10)", "Medium(1-50)", "Hard(1-1000)", "Custom", "Back" };
+	private final Random rand = new Random();
 
 	// constants for min, max, and load() method settings
 	private static final int EASY_MIN = 1, EASY_MAX = 10;
@@ -53,7 +55,7 @@ public class NumberGuessingGame extends Game {
 		loadStats(); // loads stats from save file
 	}
 
-	public void startGame(Scanner input) { // overloaded to allow Scanner parameter
+	public void startGame(Scanner input) {
 		int secretNum = generateSecretNumber(min, max);
 		playRound(input, secretNum);
 	}
@@ -92,40 +94,17 @@ public class NumberGuessingGame extends Game {
 	public boolean handleChoice(int choice, Scanner input) { // from HasMenu interface
 		switch (choice) {
 		case 1: // New game
-			boolean inMenu = true;
-			// nested switch case that sets up the difficulty that user chooses
-			while (inMenu) {
-				String[] options = getDifficultyMenuOptions();
-				// prints the DIFFICULTY_MENU array
-				for (int i = 0; i < options.length; i++) {
-					System.out.printf("%d. %s%n", i + 1, options[i]);
-				}
-
-				// stores integer value
-				int diffChoice = Input.readInt(input, "\nChoose a difficulty: ");
-				inMenu = selectDifficulty(diffChoice, input);
-			}
+			showDifficultyMenu(input);
 			return true;
+			
 		case 2: // stats
-			double averageAttempts = calculateAverage(totalAttempts, totalNumGames);
-
-			System.out.printf("""
-					%n======Overall Stats======
-					Games played: %d
-					Total guesses: %d
-					Average guesses per game: %.2f
-					Best game: %s%n
-					""", totalNumGames, totalAttempts, averageAttempts,
-					bestGame == 0 ? "No games played yet" : bestGame + " attempts");
-			printDiffStats("Easy", easyGames, easyAttempts, easyBestGame);
-			printDiffStats("Medium", mediumGames, mediumAttempts, mediumBestGame);
-			printDiffStats("Hard", hardGames, hardAttempts, hardBestGame);
-			printDiffStats("Custom", customGames, customAttempts, customBestGame);
+			showStats();
 			return true;
 
 		case 3: // how to play
 			rules();
 			return true;
+			
 		case 4: // quit
 			return false;
 
@@ -137,11 +116,11 @@ public class NumberGuessingGame extends Game {
 
 	private int generateSecretNumber(int min, int max) {
 		// creates secret number within the user's chosen range
-		return (int) (Math.random() * (max - min + 1)) + min;
+		return rand.nextInt(max - min + 1) + min;
 	}
 
 	private void playRound(Scanner input, int secretNum) {
-		System.out.println("\nGame Start");
+		onGameStart();
 		int attempts = 0;
 		int guess;
 
@@ -158,24 +137,18 @@ public class NumberGuessingGame extends Game {
 
 			} while (guess < min || guess > max);
 
-			attempts++;
-
 			if (guess > secretNum) {
 				System.out.printf("%n%d is too high! Try again.%n", guess);
 			} else if (guess < secretNum) {
 				System.out.printf("%n%d is too low! Try again.%n", guess);
 			} else {
-				System.out.printf("%nCongratulations! %d is the secret number.%n", guess);
+				System.out.printf("%nGood guess! %d is the secret number.%n", guess);
 				System.out.printf("You guessed %d time(s)!%n%n", attempts);
 			}
 
 		} while (guess != secretNum);
 
-		totalAttempts += attempts;
-		totalNumGames++;
-		updateDifficulty(attempts);
-		updateBestGame(attempts);
-		saveStats();
+		recordResult(attempts);
 	}
 
 	@Override
@@ -184,13 +157,54 @@ public class NumberGuessingGame extends Game {
 				%nHow to play:
 				%s
 				1. Pick a difficulty or create custom range and start guessing the computer's randomly picked number
-				2. Overall total guesses and # of games played are recorded in Stats%n
+				2. Overall total guesses, average # of guesses per game, and # of games played are recorded in Stats%n
 				""", super.getDescription());
 
 	}
 
-	public String[] getDifficultyMenuOptions() {
+	private void recordResult(int attempts) {
+		totalAttempts += attempts;
+		totalNumGames++;
+		updateDifficulty(attempts);
+		updateBestGame(attempts);
+		saveStats();
+	}
+
+	private String[] getDifficultyMenuOptions() {
 		return DIFFICULTY_MENU;
+	}
+
+	private void showDifficultyMenu(Scanner input) {
+		boolean inMenu = true;
+		// nested switch case that sets up the difficulty that user chooses
+		while (inMenu) {
+			String[] options = getDifficultyMenuOptions();
+			// prints the DIFFICULTY_MENU array
+			for (int i = 0; i < options.length; i++) {
+				System.out.printf("%d. %s%n", i + 1, options[i]);
+			}
+
+			// stores integer value
+			int diffChoice = Input.readInt(input, "\nChoose a difficulty: ");
+			inMenu = selectDifficulty(diffChoice, input);
+		}
+	}
+
+	private void showStats() {
+		double averageAttempts = calculateAverage(totalAttempts, totalNumGames);
+
+		System.out.printf("""
+				%n======Overall Stats======
+				Games played: %d
+				Total guesses: %d
+				Average guesses per game: %.2f
+				Best game: %s%n
+				""", totalNumGames, totalAttempts, averageAttempts,
+				bestGame == 0 ? "No games played yet" : bestGame + " attempts");
+		printDiffStats("Easy", easyGames, easyAttempts, easyBestGame);
+		printDiffStats("Medium", mediumGames, mediumAttempts, mediumBestGame);
+		printDiffStats("Hard", hardGames, hardAttempts, hardBestGame);
+		printDiffStats("Custom", customGames, customAttempts, customBestGame);
 	}
 
 	private void selectCustomRange(Scanner input) {

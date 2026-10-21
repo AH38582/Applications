@@ -7,4 +7,8 @@ public abstract class Utility extends App implements HasMenu {
 
 	}
 
+	protected abstract void clearAllData();
+
+	protected abstract void printAllData();
+
 }

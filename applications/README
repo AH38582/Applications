@@ -1,3 +1,8 @@
+You can interact with these classes
+- AppHub.java (applications package)
+- LockScreen.java (applications.gui package); none of the apps open, it has one click to unlock feature, and you can press ESC to exit
+- may have to change file path for Calculator.java, NumberGuessingGame.java and Notes.java
+
 reason i made this:
 - to learn: i'm taking a course and want to implement my knowledge into something that isn't my homework
 - possible resume?: obviously the notes will be adjusted to suit that, like sentence casing and making it professional
@@ -21,6 +26,7 @@ What is implemented already
 - NumberGuessingGame class that extends Game and implements HasMenu and Playable(Game)
 - Calculator class that extends Utility(App)
 - Notes class that extends Utility(App) and implements HasMenu
+- 8-Ball class that extends extends Game(App) and implements HasMenu and Playable(Game)
 
 To-do
 high priority
